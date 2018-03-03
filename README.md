@@ -1,2 +1,2 @@
 # trello-overview
-Show an HTML overview of trello cards
+Show an HTML overview of trello cards.
