@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 
 /**
@@ -19,7 +20,7 @@ _html_start();
 foreach ($boards as $board) {
   echo '<div class="board"' . $board->style . '><div class="board-name"><a href="' . $board->shortUrl . '" target="_blank">' . $board->name . '</a></div>';
   foreach ($board->lists as $list) {
-    echo '<div class="list"><div class="list-name"><a href="' . $board->shortUrl . '" target="_blank">' . $list->name . '</a></div>';
+    echo '<div class="list"><div class="list-name ' . $list->class . '"><a href="' . $board->shortUrl . '" target="_blank">' . $list->name . '</a></div>';
     foreach ($list->cards as $card) {
       echo '<div class="card"><a href="' . $card->shortUrl . '" target="_blank">' . $card->name . '</a></div>';
     }
@@ -87,6 +88,13 @@ function _get_boards() {
 
       // Only keep first two cards.
       $list->cards = array_slice($list->cards, 0, 2);
+
+      // Generate class for list.
+      $list->class = preg_replace(
+        ['/ \//', '/[^a-z0-9\-]/'],
+        ['-', ''],
+        strtolower($list->name)
+      );
     }
 
   }
@@ -106,50 +114,7 @@ function _html_start() {
   echo <<< EOF
 <html>
 <head>
-<style>
-body {
-  font-family: helvetica, arial;
-}
-a {
-  text-decoration: none;
-  color: inherit;
-}
-div {
-  /* border: 1px solid black; */
-  margin: 4px 6px;
-  padding: 4px 6px;
-}
-.board {
-  display: inline-block;
-  font-size: 16px;
-  font-weight: bold;
-  background-color: lightblue;
-  background-repeat: no-repeat;
-  background-size: cover !important;
-}
-.board-name {
-  text-align: center;
-  background-color: lightgrey;
-}
-.list {
-  display: inline-block;
-  font-size: 14px;
-  vertical-align: top;
-  color: #eee;
-}
-.list-name {
-  text-align: center;
-  background-color: rgba(0, 0, 0, 0.6);
-}
-.card {
-  font-size: 12px;
-  font-weight: normal;
-  width: 128px;
-  border: 1px solid lightgrey;
-  color: #eee;
-  background-color: rgba(0, 0, 0, 0.4);
-}
-</style>
+<link rel="stylesheet" type="text/css" href="trello.css">
 </head>
 <body>
 EOF;

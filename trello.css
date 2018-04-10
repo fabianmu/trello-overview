@@ -1,0 +1,54 @@
+body {
+  font-family: helvetica, arial;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+div {
+  /* border: 1px solid black; */
+  margin: 4px 6px;
+  padding: 4px 6px;
+}
+.board {
+  display: inline-block;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: lightblue;
+  background-repeat: no-repeat;
+  background-size: cover !important;
+}
+.board-name {
+  text-align: center;
+  background-color: lightgrey;
+}
+.list {
+  display: inline-block;
+  font-size: 14px;
+  vertical-align: top;
+  color: #eee;
+}
+.list-name {
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+.card {
+  font-size: 13px;
+  font-weight: normal;
+  width: 144px;
+  border: 1px solid lightgrey;
+  color: #eee;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.list-name.doing, .list-name.inprogress {
+  background-color: rgba(0, 192, 0, 0.6);
+  border: solid 1px lightgreen;
+}
+.list-name.postponed {
+  background-color: rgba(192, 160, 0, 0.6);
+  border: solid 1px orange;
+}
+.list-name.blocked {
+  background-color: rgba(192, 0, 0, 0.6);
+  border: solid 1px lightred;
+}
