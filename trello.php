@@ -33,7 +33,10 @@ _html_end();
 
 // FUNCTIONS //
 function _get_boards() {
-  $boards = _trello_get('/members/me/boards');
+  // $boards = _trello_get('/members/me/boards');
+  $boards = _trello_get('/organizations/thirdwaveberlin/boards');
+  // var_dump($boards);
+  // die();
   // $boards = array_slice($boards, 5);
 
   // Loop throught each board (logic loop).
@@ -55,27 +58,14 @@ function _get_boards() {
     }
 
     // Grey background?  Delete board.
-    if ($board->prefs->background == 'grey') {
-      unset($boards[$board_key]);
-      continue;
-    }
-
     // Find bgcolor or bgimage.
-    if (is_array($board->prefs->backgroundImageScaled))
-      $board->style = ' style="background: url(' . $board->prefs->backgroundImageScaled[3]->url . ');"';
-    else if (isset($board->prefs->backgroundColor))
+    if (isset($board->prefs->backgroundColor))
       $board->style = ' style="background-color: ' . $board->prefs->backgroundColor . ';"';
     else
       $board->style = '';
 
     // Loop through each list.
     foreach ($board->lists as $list_key => $list) {
-
-      // Links?  Delete list.
-      if ($list->name == 'Links') {
-        unset($board->lists[$list_key]);
-        continue;
-      }
 
       // Grab cards for that list.
       $list->cards = _trello_get('/lists/' . $list->id . '/cards');
@@ -87,7 +77,7 @@ function _get_boards() {
       }
 
       // Only keep first two cards.
-      $list->cards = array_slice($list->cards, 0, 2);
+      // $list->cards = array_slice($list->cards, 0, 2);
 
       // Generate class for list.
       $list->class = preg_replace(
@@ -112,8 +102,12 @@ function _trello_get($resource) {
 
 function _html_start() {
   echo <<< EOF
-<html>
-<head>
+  <!DOCTYPE html>
+  <html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <style>body{margin: 0}</style>
 <link rel="stylesheet" type="text/css" href="trello.css">
 </head>
 <body>
@@ -122,15 +116,6 @@ EOF;
 
 function _html_end() {
   global $boards;
-
-  foreach ($boards as $board) {
-    if ($board->name == 'NOPE Ziquid') {
-      echo '<pre>';
-      var_dump($board);
-      echo '</pre>';
-    }
-  }
-
   echo <<< EOF
 </body>
 </html>
